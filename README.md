@@ -36,6 +36,13 @@
    pip install -e .
    ```
 
+
+## Docker+condaの環境構築
+
+source /opt/conda/etc/profile.d/conda.sh
+
+conda activate umamba
+
 ## ✅ 動作確認（sanity test）
 
 Pythonのインタラクティブ環境で以下を実行：
