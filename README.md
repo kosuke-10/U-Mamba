@@ -37,11 +37,43 @@
    ```
 
 
+
 ## Docker+condaの環境構築
 
 source /opt/conda/etc/profile.d/conda.sh
 
 conda activate umamba
+
+
+問題
+umambaのversionがtorch2.1とかを要求してきた
+⇒元々はtorchのバージョンは2.0.6とかだった
+
+🔸 問題①: pip install mamba-ssm が失敗
+原因: PyTorch 2.7 (CUDA 12.6) がbuildに使われ、DockerベースCUDA 11.8と不一致でビルド失敗。
+
+対応:
+
+PyTorchを 2.1.2+cu118 に固定（CUDA 11.8 対応の最終バージョン）
+
+mamba-ssm はこのバージョンでビルド成功
+
+transformerのpipで入れることでまあましに？とりあえずimport mamba-ssmは通るように
+
+
+
+やること
+pip install -e . の自動化
+⇒これができないとコンテナ壊れた時に忘れる
+
+🔸 問題②: pip install -e . が失敗
+原因: Dockerfile内で umamba ディレクトリに移動して pip install -e . を実行するが、該当ディレクトリがDockerコンテナ内に存在しない
+
+対応:
+
+ホスト側の /U-Mamba をコンテナにマウントしてから pip install -e .
+
+または、git clone して WORKDIR を設定してから同コマンド実行
 
 ## ✅ 動作確認（sanity test）
 
