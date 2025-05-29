@@ -40,16 +40,12 @@ RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && conda activate uma
 
 RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && \
     conda activate umamba && \
-    pip install --no-cache-dir https://download.pytorch.org/whl/cu118/torch-2.0.1%2Bcu118-cp310-cp310-linux_x86_64.whl"
+    pip install torch==2.1.0+cu118 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cu118"
 
 RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && \
     conda activate umamba && \
-    pip install --no-cache-dir https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.4.0/causal_conv1d-1.4.0+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
-    pip install --no-cache-dir https://github.com/state-spaces/mamba/releases/download/v1.1.1/mamba_ssm-1.1.1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl"
-
-# umamba本体を開発モードでインストール
-WORKDIR /U-Mamba/umamba
-RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && conda activate umamba && pip install -e ."
+    pip install https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.5.0.post8/causal_conv1d-1.5.0.post8+cu11torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
+    pip install https://github.com/state-spaces/mamba/releases/download/v1.1.1/mamba_ssm-1.1.1+cu118torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl"
 
 
 # キャッシュ削除で軽量化
