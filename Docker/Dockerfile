@@ -16,7 +16,8 @@ RUN apt-get update && \
     libglib2.0-0 \
     libsm6 \
     libxext6 \
-    libxrender-dev && \
+    libxrender-dev \
+    libgl1-mesa-glx && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     rm -rf /var/lib/apt/lists/*
 
@@ -38,16 +39,15 @@ RUN conda create -n umamba python=3.10 -y
 RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && conda activate umamba && \
     pip install --upgrade pip setuptools wheel"
 
-RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && \
-    conda activate umamba && \
-    pip install torch==2.1.0+cu118 torchvision==0.16.0 --index-url https://download.pytorch.org/whl/cu118"
+# PyTorch 2.0.1をインストール
+RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && conda activate umamba && \
+    pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 --index-url https://download.pytorch.org/whl/cu118 && \
+    pip install transformers==4.27.4"
 
 RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && \
     conda activate umamba && \
-    pip install https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.5.0.post8/causal_conv1d-1.5.0.post8+cu11torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
-    pip install https://github.com/state-spaces/mamba/releases/download/v1.1.1/mamba_ssm-1.1.1+cu118torch2.1cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
-    pip install -U transformers==4.37.2"
-
+    pip install https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.2.0.post1/causal_conv1d-1.2.0.post1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
+    pip install https://github.com/state-spaces/mamba/releases/download/v1.0.1/mamba_ssm-1.0.1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl"
 
 # キャッシュ削除で軽量化
 RUN conda clean -afy

@@ -62,7 +62,7 @@ conda deactivate
 umambaのversionがtorch2.1とかを要求してきた
 ⇒元々はtorchのバージョンは2.0.6とかだった
 
-🔸 問題①: pip install mamba-ssm が失敗
+##  問題①: pip install mamba-ssm が失敗
 原因: PyTorch 2.7 (CUDA 12.6) がbuildに使われ、DockerベースCUDA 11.8と不一致でビルド失敗。
 
 対応:
@@ -79,7 +79,7 @@ transformerのpipで入れることでまあましに？とりあえずimport ma
 pip install -e . の自動化
 ⇒これができないとコンテナ壊れた時に忘れる
 
-🔸 問題②: pip install -e . が失敗
+## 問題②: pip install -e . が失敗
 原因: Dockerfile内で umamba ディレクトリに移動して pip install -e . を実行するが、該当ディレクトリがDockerコンテナ内に存在しない
 
 対応:
@@ -87,6 +87,14 @@ pip install -e . の自動化
 ホスト側の /U-Mamba をコンテナにマウントしてから pip install -e .
 
 または、git clone して WORKDIR を設定してから同コマンド実行
+
+
+
+## 問題③ mamba-ssmと自作のnnU-netの引数引き渡しが合わない
+
+原因：作成済みのコード(nu-net)とmamba-ssmの引数型が合っていない
+⇒torchのバージョンを上げてmamba-ssmと対応付ける方法から
+　torchのバージョンをそのままmamba-ssmのバージョンを下げる方法に変更
 
 
 ---
