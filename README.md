@@ -36,13 +36,26 @@
    pip install -e .
    ```
 
-
+---
 
 ## Docker+condaの環境構築
 
+### Condaの有効化
+```bash
 source /opt/conda/etc/profile.d/conda.sh
-
 conda activate umamba
+```
+
+### Mamba関連モジュールのインストール
+```bash
+cd /U-Mamba/umamba
+pip install -e .
+```
+
+### conda仮想環境から抜ける
+```bash
+conda deactivate
+```
 
 
 問題
@@ -75,13 +88,21 @@ pip install -e . の自動化
 
 または、git clone して WORKDIR を設定してから同コマンド実行
 
+
+---
+
 ## ✅ 動作確認（sanity test）
 
 Pythonのインタラクティブ環境で以下を実行：
 
 ```python
 import torch
+import causal_conv1d 
 import mamba_ssm
+print("CUDA available:", torch.cuda.is_available())
+print("CUDA version from torch:", torch.version.cuda)
+print("CUDA device name:", torch.cuda.get_device_name(0))
+print("causal_conv1d and mamba_ssm loaded successfully")
 ```
 
 
@@ -92,7 +113,7 @@ import mamba_ssm
 https://github.com/bowang-lab/U-Mamba/assets/19947331/1ac552d6-4ffd-4909-ba31-7b48644fd104
 
 
-
+---
 
 
 ## 🚀 モデルの学習

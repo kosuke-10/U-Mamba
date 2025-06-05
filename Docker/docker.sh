@@ -26,6 +26,7 @@ HOST_DIR=/home/yoshida/U-Mamba
 CONTAINER_DIR=/U-Mamba
 
 docker build --force-rm -t ${IMAGE_NAME} .
+
 docker run --gpus "device=${GPU_ID}" \
    --shm-size=24g \
     -it -v ${HOST_DIR}:${CONTAINER_DIR} \
