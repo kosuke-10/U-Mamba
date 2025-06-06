@@ -18,6 +18,7 @@
    ```bash
    pip install torch==2.0.1 torchvision==0.15.2 --index-url https://download.pytorch.org/whl/cu118
    ```
+   
 
 3. [Mamba](https://github.com/state-spaces/mamba) 関連ライブラリをインストール：
    ```bash
@@ -89,13 +90,11 @@ pip install -e . の自動化
 または、git clone して WORKDIR を設定してから同コマンド実行
 
 
+## 問題③: mamba-ssmとcausal-conv1dのverが合わない
 
-## 問題③ mamba-ssmと自作のnnU-netの引数引き渡しが合わない
-
-原因：作成済みのコード(nu-net)とmamba-ssmの引数型が合っていない
-⇒torchのバージョンを上げてmamba-ssmと対応付ける方法から
-　torchのバージョンをそのままmamba-ssmのバージョンを下げる方法に変更
-
+原因：自作コードのnnunet内の引数が4つ・旧型に合わせられている
+      1dconv==1.2は引数が7つ・元のコードとの整合性が合わない・ver1.0.0を使用
+      mamba-ssmは2.0以降の物はおそらく引数7つ・一番前の4つのものを使用
 
 ---
 

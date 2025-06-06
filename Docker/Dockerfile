@@ -46,7 +46,7 @@ RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && conda activate uma
 
 RUN /bin/bash -c "source /opt/conda/etc/profile.d/conda.sh && \
     conda activate umamba && \
-    pip install https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.2.0.post1/causal_conv1d-1.2.0.post1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
+    pip install https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.0.0/causal_conv1d-1.0.0+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl && \
     pip install https://github.com/state-spaces/mamba/releases/download/v1.0.1/mamba_ssm-1.0.1+cu118torch2.0cxx11abiFALSE-cp310-cp310-linux_x86_64.whl"
 
 # キャッシュ削除で軽量化

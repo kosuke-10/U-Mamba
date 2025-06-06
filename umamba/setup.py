@@ -1,3 +1,4 @@
+#必要パッケージのインストールとモジュールの把握・エントリーポイントの
 from setuptools import setup, find_namespace_packages
 
 setup(name='nnunetv2',
