@@ -38,3 +38,11 @@ Thumbs.db
 nnUNet_raw/
 nnUNet_preprocessed/
 nnUNet_results/
+
+# outputファイルを除外
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff

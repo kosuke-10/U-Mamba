@@ -164,6 +164,7 @@ nnUNetv2_train DATASET_ID 3d_fullres all -tr nnUNetTrainerUMambaBot
 nnUNetv2_train DATASET_ID 3d_fullres all -tr nnUNetTrainerUMambaEnc
 ```
 
+---
 
 ## 🔍 推論（inference）
 
@@ -181,7 +182,76 @@ nnUNetv2_predict -i INPUT_FOLDER -o OUTPUT_FOLDER -d DATASET_ID -c CONFIGURATION
 
 ※ `CONFIGURATION` には `2d` または `3d_fullres` を指定してください。
 
+```bash
+nnUNetv2_predict \
+  -i /path/to/imagesTs \
+  -o /path/to/output_predictions \
+  -d DatasetID \
+  -c 3d_fullres \
+  -f all \
+  -tr nnUNetTrainerUMambaBot \
+  --disable_tta
+```
 
+---
+
+## 📊 評価（Evaluation）
+
+推論結果を各データセットに応じた適切な指標で評価します。評価スクリプトは `evaluation/` ディレクトリにあります。
+
+---
+
+### 🧠 評価スクリプト対応表
+
+| スクリプト名             | 対象データセット       | 指標           | 入出力形式          |
+| ------------------------ | ---------------------- | -------------- | ------------------- |
+| `abdomen_DSC_Eval.py`    | Dataset701, Dataset702 | Dice係数       | NIfTI (`.nii.gz`)   |
+| `abdomen_NSD_Eval.py`    | Dataset701, Dataset702 | 正規化表面距離 | NIfTI               |
+| `endoscopy_DSC_Eval.py`  | Dataset704             | Dice係数       | PNG                 |
+| `endoscopy_NSD_Eval.py`  | Dataset704             | NSD            | PNG                 |
+| `compute_cell_metric.py` | Dataset703             | F1スコア       | PNG（インスタンス） |
+
+---
+
+### 🧪 評価スクリプトの実行例
+
+#### 例1：内視鏡画像の Dice 評価（Dataset704）
+
+```bash
+# 内視鏡画像のDice評価（Dataset704）
+python evaluation/endoscopy_DSC_Eval.py \
+  --seg_path /path/to/output_predictions \
+  --gt_path /path/to/ground_truth_labels \
+  --save_path ./results/endovis_dice.csv
+```
+
+#### 例2：腹部CTの NSD 評価（Dataset701）
+
+```bash
+# 腹部CTのNSD評価（Dataset701）
+python evaluation/abdomen_NSD_Eval.py \
+  --seg_path /path/to/output_predictions \
+  --gt_path /path/to/ground_truth_labels \
+  --save_path ./results/abdomen_ct_nsd.csv
+```
+
+#### 例3：細胞画像のF1スコア評価（Dataset703）
+
+```bash
+# 細胞画像のF1スコア評価（Dataset703）
+python evaluation/compute_cell_metric.py \
+  --seg_path /path/to/output_predictions \
+  --gt_path /path/to/ground_truth_labels \
+  --save_path ./results/cell_f1.csv
+```
+
+---
+
+### ✅ 補足
+
+- `--seg_path`: 推論結果の出力先ディレクトリ（`nnUNetv2_predict` の `-o` と一致）
+- `--gt_path`: 正解ラベル（Ground Truth）のディレクトリ（`labelsTs` に相当）
+- `--save_path`: 評価結果（CSV）の保存先
 
 ## 💬 補足
 
